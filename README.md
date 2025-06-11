@@ -39,68 +39,123 @@ istioctl install --set profile=demo --set meshConfig.defaultConfig.tracing.zipki
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.26/samples/addons/jaeger.yaml
 
 ■ tracing.yaml
+
 apiVersion: install.istio.io/v1alpha1
+
 kind: IstioOperator
+
 spec:
+
   meshConfig:
+
     enableTracing: true
+
     defaultConfig:
+
       tracing: # <---
+
         zipkin: 
+
           address: "jaeger-collector.istio-system.svc.cluster.local:9411"
+
     extensionProviders:
+
     - name: jaeger
+
       opentelemetry:
+
         port: 4317
+
         service: jaeger-collector.istio-system.svc.cluster.local
+
 
 $ istioctl install -f ./tracing.yaml --skip-confirmation
  
 ■ Enable tracing by applying the following configuration:
+
 $ kubectl apply -f - <<EOF
+
 apiVersion: telemetry.istio.io/v1
+
 kind: Telemetry
+
 metadata:
+
   name: mesh-default
+
   namespace: istio-system
+
 spec:
+
   tracing:
+
   - providers:
+
     - name: jaeger
+
 EOF
 
 
 ■ confirm the value of address: and extensionProviders: 
+
 kubectl edit configmap istio -n istio-system 
 
 apiVersion: v1
+
 data:
+
   mesh: |-
+
     accessLogFile: /dev/stdout
+
     defaultConfig:
+
       discoveryAddress: istiod.istio-system.svc:15012
+
       tracing:
+
         sampling: 100
+
         zipkin:  # <---
+
           address: jaeger-collector.istio-system.svc.cluster.local:9411  # <---
+
     defaultProviders:
+
       metrics:
+
       - prometheus
+
     enablePrometheusMerge: true
+
     extensionProviders:
+
     - envoyOtelAls:
+
         port: 4317
+
         service: opentelemetry-collector.observability.svc.cluster.local
+
       name: otel
+
     - name: jaeger    # <---
+
       opentelemetry:  # <---
+
         port: 4317       # <---
+
         service: jaeger-collector.istio-system.svc.cluster.local  # <---
+
     rootNamespace: istio-system
+
     trustDomain: cluster.local
+
   meshNetworks: 'networks: {}'
+
 kind: ConfigMap
+
 metadata:
+
 .......
 
 
