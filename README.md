@@ -71,6 +71,7 @@ spec:
 
 $ istioctl install -f ./tracing.yaml --skip-confirmation
  
+
 ■ Enable tracing by applying the following configuration:
 
 $ kubectl apply -f - <<EOF
