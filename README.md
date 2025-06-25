@@ -38,63 +38,63 @@ istioctl install --set profile=demo --set meshConfig.defaultConfig.tracing.zipki
 // jaeger install
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.26/samples/addons/jaeger.yaml
 
-■ tracing.yaml
+■ tracing.yaml  
 
-apiVersion: install.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1  
 
-kind: IstioOperator
+kind: IstioOperator  
 
-spec:
+spec:  
 
-  meshConfig:
+  meshConfig:  
 
-    enableTracing: true
+    enableTracing: true  
 
-    defaultConfig:
+    defaultConfig:  
 
-      tracing: # <---
+      tracing: # <---  
 
-        zipkin: 
+        zipkin:  
 
-          address: "jaeger-collector.istio-system.svc.cluster.local:9411"
+          address: "jaeger-collector.istio-system.svc.cluster.local:9411"  
 
-    extensionProviders:
+    extensionProviders:  
 
-    - name: jaeger
+    - name: jaeger  
 
-      opentelemetry:
+      opentelemetry:  
 
-        port: 4317
+        port: 4317  
 
-        service: jaeger-collector.istio-system.svc.cluster.local
+        service: jaeger-collector.istio-system.svc.cluster.local  
 
 
-$ istioctl install -f ./tracing.yaml --skip-confirmation
+$ istioctl install -f ./tracing.yaml --skip-confirmation  
  
 
-■ Enable tracing by applying the following configuration:
+■ Enable tracing by applying the following configuration:  
 
-$ kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF  
 
-apiVersion: telemetry.istio.io/v1
+apiVersion: telemetry.istio.io/v1  
 
-kind: Telemetry
+kind: Telemetry  
 
-metadata:
+metadata:  
 
-  name: mesh-default
+  name: mesh-default  
 
-  namespace: istio-system
+  namespace: istio-system  
 
-spec:
+spec:  
 
-  tracing:
+  tracing:  
 
-  - providers:
+  - providers:  
 
-    - name: jaeger
+    - name: jaeger  
 
-EOF
+EOF  
 
 
 ■ confirm the value of address: and extensionProviders: 
