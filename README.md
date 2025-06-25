@@ -1,9 +1,9 @@
 train-ticket microservices benchmark - kubernetes deployment
 
-0. base source : vaqurkhan
+0\. base source : vaqurkhan
 https://github.com/vaquarkhan/train-ticket/tree/master
 
-1. jar build
+1\. jar build
 mvn clean package
 
 o Development Tool/Environment  
@@ -16,18 +16,18 @@ javac path: /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
 Maven home: /usr/opt/apache-maven-3.9.9  
 Java Development Kit (JDK)	Maven 3.9+ requires JDK 8 or above to execute.  
 
-2. docker image build  
+2\. docker image build  
 docker compose build  
 with docker-compose.yml  
 
-3. docker image register(push into dockethub)  
+3\. docker image register(push into dockethub)  
 docker tag ts/ts-login-service swlove2024/ts-login-service  
 docker push swlove2024/ts-login-service  
 
-4. kubernetes deployment  
+4\. kubernetes deployment  
 deployment, serviec .yaml  
 
-5. istio, jaeger tracing  
+5\. istio, jaeger tracing  
 curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.25.2 TARGET_ARCH=x86_64 sh -  
 cd istio-1.25.2  
 export PATH=$PWD/bin:$PATH  
